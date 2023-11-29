@@ -1,2 +1,2 @@
-# myFlixx
+# myFlix
  
