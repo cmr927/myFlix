@@ -1,224 +1,228 @@
-const express = require('express'),
-  app = express(),
-  bodyParser = require('body-parser'),
-  uuid = require('uuid');
-// morgan = require('morgan');
+const mongoose = require('mongoose');
+const Models = require('./models.js');
 
-// app.use(morgan('common'));
+const Movies = Models.Movie;
+const Users = Models.User;
+
+const express = require('express');
+const app = express();
+
+bodyParser = require('body-parser'),
 
 app.use(bodyParser.json());
 
-let users = [
-  {
-    id: 1,
-    name: "Kim",
-    favoriteMovies: []
-  },
-  {
-    id: 2,
-    name: "Joe",
-    favoriteMovies: ["The Fountain"]
-  },
+app.use(express.json());
 
-]
+app.use(express.urlencoded({ extended: true }));
 
-let movies = [
-  {
-    "Title": "The Fountain",
-    "Description": "As a modern-day scientist, Tommy is struggling with mortality, desperately searching for the medical breakthrough that will save the life of his cancer-stricken wife, Izzi.",
-    "Genre": {
-      "Name": "Drama",
-      "Description": "In film and television, drama is a category of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone."
-    },
+uuid = require('uuid');
+morgan = require('morgan');
 
-    "Director": {
-      "Name": "Darren Aronofsky",
-      "Bio": "Darren Aronofsky was born February 12, 1969, in Brooklyn, New York. Growing up, Darren was always artistic: he loved classic movies and, as a teenager, he even spent time doing graffiti art. After high school, Darren went to Harvard University to study film (both live-action and animation). He won several film awards after completing his senior thesis film, Supermarket Sweep, starring Sean Gullette, which went on to becoming a National Student Academy Award finalist. Aronofsky didn't make a feature film until five years later, in February 1996, where he began creating the concept for Pi (1998). After Darren's script for Pi (1998) received great reactions from friends, he began production. The film re-teamed Aronofsky with Gullette, who played the lead. This went on to further successes, such as Requiem for a Dream (2000), The Wrestler (2008) and Black Swan (2010). Most recently, he completed the films Noah (2014) and Mother! (2017).",
-      "Birth": 1969.0
-    },
+app.use(morgan('common'));
 
-  },
-  {
-    "Title": "The Princess Bride",
-    "Description": "A bedridden boy's grandfather reads him the story of a farmboy-turned-pirate who encounters numerous obstacles, enemies and allies in his quest to be reunited with his true love.",
-    "Genre": {
-      "Name": "Action",
-      "Description": "Action film is a film genre in which the protagonist or protagonists are thrust into a series of events that typically include violence, extended fighting, physical feats, rescues and frantic chases. Action films tend to feature a mostly resoursful hero struggling against incredible odds, which include life-threatening situations, a dangerous villain, or a pursuit which usually concludes in victory for the hero."
-    },
+mongoose.connect('mongodb://127.0.0.1:27017/cfDB');
 
-    "Director": {
-      "Name": "Rob Reiner",
-      "Bio": "When Rob graduated high school, his parents advised him to participate in Summer Theatre. Reiner got a job as an apprentice in the Bucks County Playhouse in Pennsylvania. He went on to UCLA Film School to further his education. Reiner felt he still wasn't successful even having a recurring role on one of the biggest shows in the country, All in the Family. He began his directing career with the Oscar-nominated films This Is Spinal Tap, Stand By Me, and The Princess Bride.",
-      "Birth": 1947.0
-    },
-
-  },
-  {
-    "Title": "The Hangover",
-    "Description": "Three buddies wake up from a bachelor party in Las Vegas, with no memory of the previous night and the bachelor missing. They make their way around the city in order to find their friend before his wedding.",
-    "Genre": {
-      "Name": "Comedy",
-      "Description": "A category of film which emphasizes humor."
-    },
-
-    "Director": {
-      "Name": "Todd Phillips",
-      "Bio": "Todd Phillips is an American film director, producer, and screenwriter. Growing up on Long Island, New York, Todd Phillips fell in love with feature film teen comedies made in the 1980s, and claims they were his biggest influence in becoming a filmmaker. While studying film at New York University, he made a documentary called Hated (1994), using his credit cards to finance the filmâEUR(TM)s $13,000 budget. About an excessive punk rocker, GG Allen, the student film won an award at the New Orleans Film Festival and went on to be released both theatrically and on DVD. Phillips' next project was a documentary called Frat House (1998), which followed the trials of young men trying to get accepted into a fraternity. The film won the Grand Jury Prize at the Sundance Film Festival, but soon became banned from public viewing when the young men involved objected, and lawyers for their families stepped in.",
-      "Birth": 1970.0
-    },
-
-  },
-
-  {
-    "Title": "My Neighbor Totoro",
-    "Description": "When two girls move to the country to be near their ailing mother, they have adventures with the wondrous forest spirits who live nearby.",
-    "Genre": {
-      "Name": "Family",
-      "Description": "Generally relates to children in the context of home and family. Children's films are made specifically for children and not necessarily for a general audience, while family films are made for a wider appeal with a general audience in mind."
-    },
-
-    "Director": {
-      "Name": "Hayao Miyazaki",
-      "Bio": "Hayao Miyazaki is 1 of Japan's greatest animation directors. The entertaining plots, compelling characters & breathtaking animation in his films have earned him international renown from critics as well as public recognition within Japan. He was born on January 5, 1941 in Tokyo. He started his career in 1963 as an animator at the studio Toei Douga studio, and was subsequently involved in many early classics of Japanese animation. From the beginning, he commanded attention with his incredible drawing ability and the seemingly endless stream of movie ideas he proposed.",
-      "Birth": 1941.0
-    },
-
-  },
-
-  {
-    "Title": "Barbie",
-    "Description": "Barbie suffers a crisis that leads her to question her world and her existence.",
-    "Genre": {
-      "Name": "Fantasy",
-      "Description": "Speculative fiction involving magical elements, typically set in a fictional universe and usually inspired by mythology or folklore. "
-    },
-
-    "Director": {
-      "Name": "Greta Gerwig",
-      "Bio": "Greta Gerwig is an American actress, playwright, screenwriter, and director. She has collaborated with Noah Baumbach on several films, including Greenberg (2010), Frances Ha (2012), for which she earned a Golden Globe nomination, and Mistress America (2015). Gerwig made her solo directorial debut with the critically acclaimed comedy-drama film Lady Bird (2017), which she also wrote, and has also had starring roles in the films Damsels in Distress (2011), Jackie (2016), and 20th Century Women (2016).      ",
-      "Birth": 1983.0
-    },
-
-  },
-
-];
+//READ
+//default text response when at /
+app.get("/", (req, res) => {
+  res.send("Welcome to MyFlix!");
+});
 
 // CREATE
-app.post('/users', (req, res) => {
-  const newUser = req.body;
-
-  if (newUser.name) {
-    newUser.id = uuid.v4();
-    users.push(newUser);
-    res.status(201).json(newUser)
-  } else {
-    res.status(400).send('users need names')
-  }
-})
+//Add a user
+/* We’ll expect JSON in this format
+{
+  ID: Integer,
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthday: Date
+}*/
+app.post('/users', async (req, res) => {
+  await Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + 'already exists');
+      } else {
+        Users
+          .create({
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
+          .then((user) =>{res.status(201).json(user) })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send('Error: ' + error);
+        })
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+});
 
 // UPDATE
-app.put('/users/:id', (req, res) => {
-  const { id } = req.params;
-  const updatedUser = req.body;
+// Update a user's info, by username
+/* We’ll expect JSON in this format
+{
+  Username: String,
+  (required)
+  Password: String,
+  (required)
+  Email: String,
+  (required)
+  Birthday: Date
+}*/
+app.put('/users/:Username', async (req, res) => {
+  await Users.findOneAndUpdate({ username: req.params.Username }, { $set:
+    {
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email,
+      birth_date: req.body.birthday
+    }
+  },
+  { new: true }) // This line makes sure that the updated document is returned
+  .then((updatedUser) => {
+    res.json(updatedUser);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  })
 
-  let user = users.find(user => user.id == id);
+});
 
-  if (user) {
-    user.name = updatedUser.name;
-    res.status(200).json(user);
-  } else {
-    res.status(400).send('no such user')
-  }
-
-})
-
-// CREATE
-app.post('/users/:id/:movieTitle', (req, res) => {
-  const { id, movieTitle } = req.params;
-
-  let user = users.find(user => user.id == id);
-
-  if (user) {
-    user.favoriteMovies.push(movieTitle);
-    res.status(200).send(`${movieTitle} has been added to user ${id}'s array`);;
-  } else {
-    res.status(400).send('no such movie')
-  }
-
-})
+//UPDATE
+// Add a movie to a user's list of favorites
+app.post('/users/:Username/movies/:MovieID', async (req, res) => {
+  await Users.findOneAndUpdate({ username: req.params.Username }, {
+     $push: { FavoriteMovies: req.params.MovieID }
+   },
+   { new: true }) // This line makes sure that the updated document is returned
+  .then((updatedUser) => {
+    res.json(updatedUser);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
+});
 
 // DELETE
-app.delete('/users/:id/:movieTitle', (req, res) => {
-  const { id, movieTitle } = req.params;
+//Delete a movie from the user's favorite list
+app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
+  await Users.findOneAndUpdate({ username: req.params.Username }, {
+     $pull: { FavoriteMovies: req.params.MovieID }
+   },
+   { new: true })
+  .then((updatedUser) => {
+    res.json(updatedUser);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
+});
 
-  let user = users.find(user => user.id == id);
-
-  if (user) {
-    user.favoriteMovies = user.favoriteMovies.filter(title => title !== movieTitle);
-    res.status(200).send(`${movieTitle} has been removed from user ${id}'s array`);;
-  } else {
-    res.status(400).send('cannot remove movie')
-  }
-
-})
-
-// DELETE
-app.delete('/users/:id', (req, res) => {
-  const { id } = req.params;
-
-  let user = users.find(user => user.id == id);
-
-  if (user) {
-    users = users.filter(user => user.id != id);
-    res.status(200).send(`user ${id} has been deleted`);
-  } else {
-    res.status(400).send('no such user')
-  }
-
+// READ
+// Get all movies
+app.get('/movies', async (req, res) => {
+  await Movies.find()
+  .then((movies) => {
+    res.status(201).json(movies);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
+  
 })
 
 // READ
-app.get('/movies', (req, res) => {
-  res.status(200).json(movies);
-})
+// Get all users
+app.get('/users', async (req, res) => {
+  await Users.find()
+    .then((users) => {
+      res.status(201).json(users);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
+//READ
+// Get a user by username
+app.get('/users/:Username', async (req, res) => {
+  await Users.findOne({ username: req.params.Username })
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
+//DELETE
+// Delete a user by username
+app.delete('/users/:Username', async (req, res) => {
+  await Users.findOneAndDelete({ username: req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.Username + ' was not found');
+      } else {
+        res.status(200).send(req.params.Username + ' was deleted.');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
 
 // READ
-app.get('/movies/:title', (req, res) => {
-  const { title } = req.params;
-  const movie = movies.find(movie => movie.Title === title);
-
-  if (movie) {
-    res.status(200).json(movie);
-  } else {
-    res.status(400).send('no such movie')
-  }
-})
-
-// READ
-app.get('/movies/genre/:genreName', (req, res) => {
-  const { genreName } = req.params;
-  const genre = movies.find(movie => movie.Genre.Name === genreName).Genre;
-
-  if (genre) {
-    res.status(200).json(genre);
-  } else {
-    res.status(400).send('no such genre')
-  }
-
-})
+// Get a movie by title
+app.get('/movies/:title', async (req, res) => {
+  await Movies.findOne({ Title: req.params.title })
+    .then((movie) => {
+      res.json(movie);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
 
 // READ
-app.get('/movies/director/:directorName', (req, res) => {
-  const { directorName } = req.params;
-  const director = movies.find(movie => movie.Director.Name === directorName).Director;
+// Get a movie by genre name
+app.get('/movies/genres/:genreName', async (req, res) => {
+  await Movies.findOne({"Genre.Name": req.params.genreName})
+  .then((movies) => {
+    res.json(movies.Genre);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
+});
 
-  if (director) {
-    res.status(200).json(director);
-  } else {
-    res.status(400).send('no such director')
-  }
-
-})
+// READ
+// Get info on a specific director
+app.get('/movies/directors/:directorName', async (req, res) => {
+  await Movies.findOne({"Director.Name": req.params.directorName})
+  .then((movies) => {
+    res.json(movies.Director);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
+});
 
 app.use('/', express.static('public'));
 

@@ -127,8 +127,8 @@
         </tr>
         <tr>
           <th scope="row">6</th>
-          <td>Allow users to update their user info (username)</td>
-          <td>/users/:id</td>
+          <td>Allow users to update their user info (username, password, email, date of birth)</td>
+          <td>/users/:username</td>
           <td>PUT</td>
           <td>UPDATE</td>
           <td>A JSON object holding data about the user to be updated. Example:
@@ -153,16 +153,16 @@
         <tr>
           <th scope="row">7</th>
           <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added)</td>
-          <td>/users/:id/:movieTitle</td>
-          <td>POST</td>
-          <td>CREATE</td>
+          <td>/users/:username/movies/:MovieID</td>
+          <td>PUT</td>
+          <td>UPDATE</td>
           <td>None</td>
           <td>A text message indicating whether the movie was added to the user's favorite list</td>
         </tr>
         <tr>
           <th scope="row">8</th>
           <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed)</td>
-          <td>/users/:id/:movieTitle</td>
+          <td>/users/:username/movies/:MovieID</td>
           <td>DELETE</td>
           <td>DELETE</td>
           <td>None</td>
