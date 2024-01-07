@@ -39,7 +39,28 @@
           <td>GET</td>
           <td>READ</td>
           <td>None</td>
-          <td>A JSON object holding data about all the students</td>
+          <td>A JSON object holding data about all the movies. Example:
+            <code>
+              {
+                "Genre": {
+                    "Name": "Thriller",
+                    "Description": "Thriller film, also known as suspense film or suspense thriller, is a broad film genre that involves excitement and suspense in the audience."
+                },
+                "Director": {
+                    "Name": "Jonathan Demme",
+                    "Bio": "Jonathan Demme was born on February 22, 1944 in Baldwin, Long Island, New York, USA. He was a director and producer, known for The Silence of the Lambs (1991), Philadelphia (1993) and Rachel Getting Married (2008). ",
+                    "Birth": "1944-02-22T00:00:00.000Z",
+                    "Death": "2017-04-26T00:00:00.000Z"
+                },
+                "_id": "6582042062ad0d41a80d78da",
+                "Title": "Silence of the Lambs",
+                "Description": "A young FBI cadet must receive the help of an incarcerated and manipulative cannibal killer.",
+                "ImagePath": "silenceofthelambs.png",
+                "Featured": true,
+                "Year": "1991"
+            },
+            </code>
+          </td>
         </tr>
         <tr>
           <th scope="row">2</th>
@@ -48,56 +69,60 @@
           <td>GET</td>
           <td>READ</td>
           <td>None</td>
-          <td>A JSON object holding data about a single student, containing an ID, name, and classes property. Example: 
+          <td>A JSON object holding data about a single movie, containing an ID, name, and classes property. Example: 
             <code> 
               {
-                "Title":"The Fountain",
-                "Description":"As a modern-day scientist...",
                 "Genre": {
-                  "Name":"Drama",
-                  "Description":"drama is a category of narrative fiction..."
+                    "Name": "Drama",
+                    "Description": "Drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone."
                 },
-            
                 "Director": {
-                  "Name":"Darren Aronofsky",
-                  "Bio":"Darren Aronofsky was born February 12, 1969, in Brooklyn, New York...Most recently, he completed the films Noah (2014) and Mother! (2017).",
-                  "Birth":1969.0
+                    "Name": "Jonathan Demme",
+                    "Bio": "Jonathan Demme was born on February 22, 1944 in Baldwin, Long Island, New York, USA. He was a director and producer, known for The Silence of the Lambs (1991), Philadelphia (1993) and Rachel Getting Married (2008). ",
+                    "Birth": "1944-02-22T00:00:00.000Z",
+                    "Death": "2017-04-26T00:00:00.000Z"
                 },
-            
-                },
+                "_id": "658390c2d017ea52f29e56c4",
+                "Title": "Philadelphia",
+                "Description": "When a man with HIV is fired by his law firm because of his condition, he hires a homophobic small time lawyer as the only willing advocate for a wrongful dismissal suit.",
+                "Year": "1993",
+                "ImagePath": "philadelphia.png",
+                "Featured": false
+            }
             </code>
           </td>
         </tr>
         <tr>
           <th scope="row">3</th>
           <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
-          <td>/movies/genre/:genreName</td>
+          <td>/movies/genres/:genreName</td>
           <td>GET</td>
           <td>READ</td>
           <td>None</td>
           <td>A JSON object holding data about a single genre, containing the name/title and description. Example: 
             <code>
-            "Genre": {
-                  "Name"": "Drama",
-                  "Description": "In film and television, drama is a category of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone."
-                },
+              {
+                "Name": "Drama",
+                "Description": "Drama is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone."
+            }
             </code>
           </td>
         </tr>
         <tr>
           <th scope="row">4</th>
           <td>Return data about a director (bio, birth year, death year) by name</td>
-          <td>/movies/director/:directorName</td>
+          <td>/movies/directors/:directorName</td>
           <td>GET</td>
           <td>READ</td>
           <td>None</td>
           <td>A JSON object holding data about a single director , containing the name, bio, birth year, and death year (if applicable). Example: 
             <code>
-            "Director": {
-                  "Name": "Darren Aronofsky",
-                  "Bio": "Darren Aronofsky was born February 12, 1969, in Brooklyn, New York...Most recently, he completed the films Noah (2014) and Mother! (2017).",
-                  "Birth": 1969.0
-                },
+              {
+                "Name": "Rob Minkoff",
+                "Bio": "Robert Ralph Minkoff is an American filmmaker. He is known for directing the double Academy Award–winning animated feature The Lion King, along with directing Stuart Little.",
+                "Birth": "1962-08-11T00:00:00.000Z",
+                "Death": null
+            }
             </code>
           </td>
         </tr>
@@ -110,18 +135,24 @@
           <td>A JSON object holding data about the new user to add, structured like:
             <code> 
               {
-                name: "Kim",
-                favoriteMovies: []
+                "username": "cmr927",
+                "password": "729rmc",
+                "email": "cmr927@email.com",
+                "birth_date": "1999-09-09"
               }
             </code>
           </td>
           <td>A JSON object holding data about the new user that was added, including an ID: 
             <code> 
               {
-                id: 1 
-                name: "Kim",
-                favoriteMovies: []
-              },
+                  "_id": "659b121dc15555e513550396",
+                  "username": "cmr927",
+                  "password": "729rmc",
+                  "email": "cmr927@email.com",
+                  "birth_date": "1999-09-09T00:00:00.000Z",
+                  "FavoriteMovies": [],
+                  "__v": 0
+              }
             </code>
           </td>
         </tr>
@@ -133,49 +164,77 @@
           <td>UPDATE</td>
           <td>A JSON object holding data about the user to be updated. Example:
             <code>
-             {
-                id: 1 
-                name: "Kimmy",
-                favoriteMovies: []
-              },
+              {
+                "username": "emma_jones",
+                "password": "123456secret321",
+                "email": "emma.jones@email.com",
+                "birth_date": "1988-12-05T00:00:00.000Z"
+              }
             </code>
           </td>
-          <td>A JSON object holding data about the user that was updated:
+          <td>A JSON object holding data about the user that was updated. Example:
             <code>
-             {
-                id: 1 
-                name: "Kimmy",
-                favoriteMovies: []
-              },
+              {
+                "username": "emma_jones",
+                "password": "123456secret321",
+                "email": "emma.jones@email.com",
+                "birth_date": "1988-12-05T00:00:00.000Z"
+              }
             </code>
           </td>
         </tr>
         <tr>
           <th scope="row">7</th>
-          <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added)</td>
+          <td>Allow users to add a movie to their list of favorites</td>
           <td>/users/:username/movies/:MovieID</td>
-          <td>PUT</td>
-          <td>UPDATE</td>
+          <td>POST</td>
+          <td>CREATE</td>
           <td>None</td>
-          <td>A text message indicating whether the movie was added to the user's favorite list</td>
+          <td>A JSON object holding data showing the movie added to the user's favorite list. Example:
+            <code>
+              {
+                "_id": "65839804d017ea52f29e56c8",
+                "userid": 4,
+                "username": "emma_jones",
+                "password": "123456secret321",
+                "email": "emma.jones@email.com",
+                "birth_date": "1988-12-05T00:00:00.000Z",
+                "FavoriteMovies": [
+                    "65838e76d017ea52f29e56c1"
+                ]
+            }
+            </code>
+          </td>
         </tr>
         <tr>
           <th scope="row">8</th>
-          <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed)</td>
+          <td>Allow users to remove a movie from their list of favorites</td>
           <td>/users/:username/movies/:MovieID</td>
           <td>DELETE</td>
           <td>DELETE</td>
           <td>None</td>
-          <td>A text message indicating whether the movie was removed from the user's favorite list</td>
+          <td>A JSON object holding data showing the movie was removed from the user's favorite list. Example:
+            <code>
+              {
+                "_id": "65839804d017ea52f29e56c8",
+                "userid": 4,
+                "username": "emma_jones",
+                "password": "123456secret321",
+                "email": "emma.jones@email.com",
+                "birth_date": "1988-12-05T00:00:00.000Z",
+                "FavoriteMovies": []
+            }
+            </code>
+          </td>
         </tr>
         <tr>
           <th scope="row">9</th>
-          <td>Allow existing users to deregister (showing only a text that a user email has been removed)</td>
-          <td>/users/:id</td>
+          <td>Allow existing users to deregister (showing only a text that a user has been removed)</td>
+          <td>/users/:username</td>
           <td>DELETE</td>
           <td>DELETE</td>
           <td>None</td>
-          <td>A text message indicating whether the user was removed from the database</td>
+          <td>A text message indicating the user was removed from the database</td>
         </tr>
       </tbody>
     </table>

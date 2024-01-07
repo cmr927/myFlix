@@ -32,24 +32,23 @@ app.get("/", (req, res) => {
 //Add a user
 /* We’ll expect JSON in this format
 {
-  ID: Integer,
-  Username: String,
-  Password: String,
-  Email: String,
-  Birthday: Date
+  username: String,
+  password: String,
+  email: String,
+  birth_date: Date
 }*/
 app.post('/users', async (req, res) => {
-  await Users.findOne({ Username: req.body.Username })
+  await Users.findOne({ username: req.body.username })
     .then((user) => {
       if (user) {
-        return res.status(400).send(req.body.Username + 'already exists');
+        return res.status(400).send(req.body.username + 'already exists');
       } else {
         Users
           .create({
-            Username: req.body.Username,
-            Password: req.body.Password,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email,
+            birth_date: req.body.birth_date
           })
           .then((user) =>{res.status(201).json(user) })
         .catch((error) => {
@@ -68,13 +67,10 @@ app.post('/users', async (req, res) => {
 // Update a user's info, by username
 /* We’ll expect JSON in this format
 {
-  Username: String,
-  (required)
-  Password: String,
-  (required)
-  Email: String,
-  (required)
-  Birthday: Date
+    username: {type: String, required: true},
+    password: {type: String, required: true},
+    email: {type: String, required: true},
+    birth_date: Date
 }*/
 app.put('/users/:Username', async (req, res) => {
   await Users.findOneAndUpdate({ username: req.params.Username }, { $set:
