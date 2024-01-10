@@ -76,24 +76,29 @@ app.post('/users', async (req, res) => {
     email: {type: String, required: true},
     birth_date: Date
 }*/
-app.put('/users/:Username', async (req, res) => {
-  await Users.findOneAndUpdate({ username: req.params.Username }, { $set:
-    {
-      username: req.body.username,
-      password: req.body.password,
-      email: req.body.email,
-      birth_date: req.body.birthday
-    }
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  // CONDITION TO CHECK ADDED HERE
+  if(req.user.Username !== req.params.Username){
+      return res.status(400).send('Permission denied');
+  }
+  // CONDITION ENDS
+  await Users.findOneAndUpdate({ username: req.params.Username }, {
+      $set:
+      {
+          username: req.body.username,
+          password: req.body.password,
+          email: req.body.email,
+          birth_date: req.body.birthday
+      }
   },
-  { new: true }) // This line makes sure that the updated document is returned
-  .then((updatedUser) => {
-    res.json(updatedUser);
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  })
-
+      { new: true }) // This line makes sure that the updated document is returned
+      .then((updatedUser) => {
+          res.json(updatedUser);
+      })
+      .catch((err) => {
+          console.log(err);
+          res.status(500).send('Error: ' + err);
+      })
 });
 
 //UPDATE
