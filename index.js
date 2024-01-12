@@ -40,7 +40,7 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-mongoose.connect('mongodb://127.0.0.1:27017/cfDB');
+mongoose.connect('mongodb://0.0.0.0:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 //READ
 //default text response when at /
