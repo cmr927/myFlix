@@ -7,6 +7,8 @@ const Users = Models.User;
 const express = require('express');
 const app = express();
 
+const { check, validationResult } = require('express-validator');
+
 bodyParser = require('body-parser'),
 
 app.use(bodyParser.json());
@@ -19,6 +21,20 @@ uuid = require('uuid');
 morgan = require('morgan');
 
 app.use(morgan('common'));
+
+const cors = require('cors');
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+      let message = "The CORS policy for this application doesn't allow access from origin" + origin;
+      return callback(new Error(message ), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 let auth = require('./auth')(app);
 const passport = require('passport');
@@ -41,7 +57,26 @@ app.get("/", (req, res) => {
   email: String,
   birth_date: Date
 }*/
-app.post('/users', async (req, res) => {
+app.post('/users', 
+  // Validation logic here for request
+  //you can either use a chain of methods like .not().isEmpty()
+  //which means "opposite of isEmpty" in plain english "is not empty"
+  //or use .isLength({min: 5}) which means
+  //minimum value of 5 characters are only allowed
+  [
+    check('username', 'Username is required').isLength({min: 5}),
+    check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('password', 'Password is required').not().isEmpty(),
+    check('email', 'Email does not appear to be valid').isEmail()
+  ],
+async (req, res) => {
+  // check the validation object for errors
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  let hashedPassword = Users.hashPassword(req.body.Password);
   await Users.findOne({ username: req.body.username })
     .then((user) => {
       if (user) {
@@ -236,6 +271,12 @@ app.use((err, req, res, next) => {
 });
 
 // listen for requests
-app.listen(8080, () => {
-  console.log('Your app is listening on port 8080.');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
 });
+
+// keeping 8080 code for when I need to test locally
+// app.listen(8080, () => {
+//   console.log('Your app is listening on port 8080.');
+// });
