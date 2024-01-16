@@ -187,22 +187,12 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
     });
 });
 
-// READ
-// Get all users
-app.get('/users', async (req, res) => {
-  await Users.find()
-    .then((users) => {
-      res.status(201).json(users);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
-
 //READ
 // Get a user by username
-app.get('/users/:Username', async (req, res) => {
+app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  if (req.user.username !== req.params.Username) {
+    return res.status(400).send('Permission denied');
+  }
   await Users.findOne({ username: req.params.Username })
     .then((user) => {
       res.json(user);
