@@ -23,7 +23,7 @@ morgan = require('morgan');
 app.use(morgan('common'));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'mongodb://0.0.0.0:27017/cfDB'];
 
 app.use(cors({
   origin: (origin, callback) => {
