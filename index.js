@@ -23,7 +23,7 @@ morgan = require('morgan');
 app.use(morgan('common'));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'mongodb://0.0.0.0:27017/cfDB'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'mongodb://localhost:27017/cfDB'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -40,7 +40,7 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-mongoose.connect('mongodb://0.0.0.0:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 //READ
 //default text response when at /
@@ -271,7 +271,7 @@ app.use((err, req, res, next) => {
 
 // listen for requests
 const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0',() => {
+app.listen(port, 'localhost',() => {
  console.log('Listening on Port ' + port);
 });
 
