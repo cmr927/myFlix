@@ -44,7 +44,7 @@ require('./passport');
 // mongoose.connect('mongodb://localhost:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Online connection
-mongoose.connect('process.env.CONNECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://process.env.CONNECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true });
 
 //READ
 //default text response when at /
