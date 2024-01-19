@@ -23,7 +23,7 @@ morgan = require('morgan');
 app.use(morgan('common'));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'mongodb://localhost:27017/cfDB'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'mongodb://localhost:27017/cfDB', 'mongodb+srv://myFlixDbAdmin:kFVDsR4UBqxHeNqV@myflixdb.w15vncv.mongodb.net/myFlixDB?retryWrites=true&w=majority'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -44,7 +44,7 @@ require('./passport');
 // mongoose.connect('mongodb://localhost:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Online connection
-// mongoose.connect('mongodb+srv://myFlixDbAdmin:kFVDsR4UBqxHeNqV@myflixdb.w15vncv.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //READ
 //default text response when at /
