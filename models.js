@@ -27,6 +27,7 @@ let movieSchema = mongoose.Schema({
   });
 
   userSchema.statics.hashPassword = (password) => {
+    console.log(password)
     return bcrypt.hashSync(password, 10);
   };
   

@@ -44,7 +44,7 @@ require('./passport');
 // mongoose.connect('mongodb://localhost:27017/cfDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Online connection
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://myFlixDbAdmin:kFVDsR4UBqxHeNqV@myflixdb.w15vncv.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
 //READ
 //default text response when at /
@@ -80,7 +80,7 @@ async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
-  let hashedPassword = Users.hashPassword(req.body.Password);
+  let hashedPassword = Users.hashPassword(req.body.password);
   await Users.findOne({ username: req.body.username })
     .then((user) => {
       if (user) {
@@ -273,7 +273,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-// listen for requests
+// // listen for requests
 const port = process.env.PORT || 8080;
 app.listen(port, 'localhost',() => {
  console.log('Listening on Port ' + port);
