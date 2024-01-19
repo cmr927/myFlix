@@ -89,7 +89,7 @@ async (req, res) => {
         Users
           .create({
             username: req.body.username,
-            password: req.body.password,
+            password: hashedPassword,
             email: req.body.email,
             birth_date: req.body.birth_date
           })
