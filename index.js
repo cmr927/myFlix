@@ -23,7 +23,7 @@ morgan = require('morgan');
 app.use(morgan('common'));
 
 const cors = require('cors');
-let allowedOrigins = ['http://0.0.0.0:8080', 'http://testsite.com', 'mongodb://'0.0.0.0t:27017/cfDB', 'mongodb+srv://myFlixDbAdmin:kFVDsR4UBqxHeNqV@myflixdb.w15vncv.mongodb.net/myFlixDB?retryWrites=true&w=majority'];
+let allowedOrigins = ['http://0.0.0.0:8080', 'http://testsite.com', 'mongodb://0.0.0.0t:27017/cfDB', 'mongodb+srv://myFlixDbAdmin:kFVDsR4UBqxHeNqV@myflixdb.w15vncv.mongodb.net/myFlixDB?retryWrites=true&w=majority'];
 
 app.use(cors({
   origin: (origin, callback) => {
