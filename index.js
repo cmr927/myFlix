@@ -23,7 +23,7 @@ morgan = require('morgan');
 app.use(morgan('common'));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'mongodb://localhost:27017/cfDB', 'mongodb+srv://myFlixDbAdmin:kFVDsR4UBqxHeNqV@myflixdb.w15vncv.mongodb.net/myFlixDB?retryWrites=true&w=majority'];
+let allowedOrigins = ['http://0.0.0.0:8080', 'http://testsite.com', 'mongodb://'0.0.0.0t:27017/cfDB', 'mongodb+srv://myFlixDbAdmin:kFVDsR4UBqxHeNqV@myflixdb.w15vncv.mongodb.net/myFlixDB?retryWrites=true&w=majority'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -275,7 +275,7 @@ app.use((err, req, res, next) => {
 
 // // listen for requests
 const port = process.env.PORT || 8080;
-app.listen(port, 'localhost',() => {
+app.listen(port, '0.0.0.0',() => {
  console.log('Listening on Port ' + port);
 });
 
