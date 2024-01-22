@@ -25,8 +25,6 @@ app.use(morgan('common'));
 const cors = require('cors');
 let allowedOrigins = ['http://0.0.0.0:8080', 'http://testsite.com', 'mongodb://0.0.0.0t:27017/cfDB', process.env.CONNECTION_URI];
 
-let hashedPassword = Users.hashPassword(req.body.password);
-
 app.use(cors({
   origin: (origin, callback) => {
     if(!origin) return callback(null, true);
@@ -82,6 +80,7 @@ async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
+  let hashedPassword = Users.hashPassword(req.body.password);
   await Users.findOne({ username: req.body.username })
     .then((user) => {
       if (user) {
@@ -122,6 +121,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
     return res.status(400).send('Permission denied');
   }
   // CONDITION ENDS
+  let hashedPassword = Users.hashPassword(req.body.password);
   await Users.findOneAndUpdate({ username: req.params.Username }, {
     $set:
     {
