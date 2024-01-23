@@ -127,6 +127,11 @@ app.put('/users/:Username',
   if (req.user.username !== req.params.Username) {
     return res.status(400).send('Permission denied');
   }
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
   // CONDITION ENDS
   let hashedPassword = Users.hashPassword(req.body.password);
   await Users.findOneAndUpdate({ username: req.params.Username }, {
