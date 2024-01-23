@@ -115,7 +115,14 @@ async (req, res) => {
     email: {type: String, required: true},
     birth_date: Date
 }*/
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:Username', 
+[
+  passport.authenticate('jwt', { session: false }),
+  check('username', 'Username is required').isLength({min: 5}).optional(),
+  check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric().optional(),
+  check('password', 'Password is required').not().isEmpty().optional(),
+  check('email', 'Email does not appear to be valid').isEmail().optional()
+], async (req, res) => {
   // CONDITION TO CHECK ADDED HERE
   if (req.user.username !== req.params.Username) {
     return res.status(400).send('Permission denied');
