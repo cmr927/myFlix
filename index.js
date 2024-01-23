@@ -118,10 +118,10 @@ async (req, res) => {
 app.put('/users/:Username', 
 [
   passport.authenticate('jwt', { session: false }),
-  check('username', 'Username is required').isLength({min: 5}),
-  check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-  check('password', 'Password is required').not().isEmpty(),
-  check('email', 'Email does not appear to be valid').isEmail()
+  check('username', 'Username is required').isLength({min: 5}).optional(),
+  check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric().optional(),
+  check('password', 'Password is required').not().isEmpty().optional(),
+  check('email', 'Email does not appear to be valid').isEmail().optional()
 ], async (req, res) => {
   // CONDITION TO CHECK ADDED HERE
   if (req.user.username !== req.params.Username) {
