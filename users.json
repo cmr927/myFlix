@@ -1,4 +1,0 @@
-{"_id":{"$oid":"65839804d017ea52f29e56c8"},"userid":4,"username":"emma_jones","password":"secret321","email":"emma.jones@email.com","birth_date":{"$date":"1988-12-05T00:00:00Z"},"FavoriteMovies":[{"$oid":"65838d58d017ea52f29e56c0"},{"$oid":"65838e76d017ea52f29e56c1"}]}
-{"_id":{"$oid":"6583980cd017ea52f29e56c9"},"userid":1,"username":"john_doe","password":"password123","email":"doe.john@email.com","birth_date":{"$date":"1990-05-15T00:00:00Z"},"FavoriteMovies":[{"$oid":"65838e76d017ea52f29e56c1"},{"$oid":"65838f35d017ea52f29e56c2"}]}
-{"_id":{"$oid":"65848c516760b92dc669a3c3"},"userid":2,"username":"alice_smith","password":"pass456","email":"alice.smith@email.com","birth_date":{"$date":"1985-09-22T00:00:00Z"}}
-{"_id":{"$oid":"65848c776760b92dc669a3c4"},"userid":3,"username":"bob_jackson","password":"qwerty789","email":"bob.jackson@email.com","birth_date":{"$date":"1992-03-10T00:00:00Z"}}

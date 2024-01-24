@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width" />
   <title>Movie API Documentation</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 
 <body class="m-3">
@@ -64,13 +64,14 @@
         </tr>
         <tr>
           <th scope="row">2</th>
-          <td>Return data (description, genre, director, image URL, whether it's featured or not) about a single movie by title to the user</td>
+          <td>Return data (description, genre, director, image URL, whether it's featured or not) about a single movie
+            by title to the user</td>
           <td>/movies/:title</td>
           <td>GET</td>
           <td>READ</td>
           <td>None</td>
-          <td>A JSON object holding data about a single movie, containing an ID, name, and classes property. Example: 
-            <code> 
+          <td>A JSON object holding data about a single movie, containing an ID, name, and classes property. Example:
+            <code>
               {
                 "Genre": {
                     "Name": "Drama",
@@ -99,7 +100,7 @@
           <td>GET</td>
           <td>READ</td>
           <td>None</td>
-          <td>A JSON object holding data about a single genre, containing the name/title and description. Example: 
+          <td>A JSON object holding data about a single genre, containing the name/title and description. Example:
             <code>
               {
                 "Name": "Drama",
@@ -115,7 +116,8 @@
           <td>GET</td>
           <td>READ</td>
           <td>None</td>
-          <td>A JSON object holding data about a single director , containing the name, bio, birth year, and death year (if applicable). Example: 
+          <td>A JSON object holding data about a single director , containing the name, bio, birth year, and death year
+            (if applicable). Example:
             <code>
               {
                 "Name": "Rob Minkoff",
@@ -133,8 +135,8 @@
           <td>GET</td>
           <td>READ</td>
           <td>None</td>
-          <td>A JSON object holding data about a single user. Example: 
-            <code> 
+          <td>A JSON object holding data about a single user. Example:
+            <code>
               {
                 "user": {
                     "_id": "65af1953ba0be72c4872e8e1",
@@ -146,7 +148,7 @@
                     "__v": 0
                 },
               }
-            </code> 
+            </code>
           </td>
         </tr>
         <tr>
@@ -156,7 +158,7 @@
           <td>POST</td>
           <td>CREATE</td>
           <td>A JSON object holding data about the new user to add, structured like:
-            <code> 
+            <code>
               {
                 "username": "sandycheeks",
                 "password": "heeyah!",
@@ -165,8 +167,8 @@
               }
             </code>
           </td>
-          <td>A JSON object holding data about the new user that was added, including an ID: 
-            <code> 
+          <td>A JSON object holding data about the new user that was added, including an ID:
+            <code>
               {
                 "user": {
                   "_id": "65af190aba0be72c4872e8de",
@@ -297,14 +299,14 @@
 
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-  integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-  crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-  integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-  crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-  crossorigin="anonymous"> </script>
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"> </script>
   <script type="module"></script>
 </body>
 

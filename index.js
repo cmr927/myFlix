@@ -1,36 +1,36 @@
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
-const Movies = Models.Movie;
-const Users = Models.User;
-
 const express = require('express');
 const app = express();
 
-const { check, validationResult } = require('express-validator');
+uuid = require('uuid');
+morgan = require('morgan');
 
-bodyParser = require('body-parser'),
+bodyParser = require('body-parser');
 
-  app.use(bodyParser.json());
+const Movies = Models.Movie;
+const Users = Models.User;
+
+app.use(bodyParser.json());
 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-uuid = require('uuid');
-morgan = require('morgan');
-
 app.use(morgan('common'));
+
+const { check, validationResult } = require('express-validator');
 
 const cors = require('cors');
 let allowedOrigins = ['http://0.0.0.0:8080', 'http://testsite.com', 'mongodb://0.0.0.0t:27017/cfDB', process.env.CONNECTION_URI];
 
 app.use(cors({
   origin: (origin, callback) => {
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
       let message = "The CORS policy for this application doesn't allow access from origin" + origin;
-      return callback(new Error(message ), false);
+      return callback(new Error(message), false);
     }
     return callback(null, true);
   }
@@ -61,50 +61,50 @@ app.get("/", (req, res) => {
   email: String,
   birth_date: Date
 }*/
-app.post('/users', 
+app.post('/users',
   // Validation logic here for request
   //you can either use a chain of methods like .not().isEmpty()
   //which means "opposite of isEmpty" in plain english "is not empty"
   //or use .isLength({min: 5}) which means
   //minimum value of 5 characters are only allowed
   [
-    check('username', 'Username is required').isLength({min: 5}),
+    check('username', 'Username is required').isLength({ min: 5 }),
     check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('password', 'Password is required').not().isEmpty(),
     check('email', 'Email does not appear to be valid').isEmail()
   ],
-async (req, res) => {
-  // check the validation object for errors
-  let errors = validationResult(req);
+  async (req, res) => {
+    // check the validation object for errors
+    let errors = validationResult(req);
 
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
-  let hashedPassword = Users.hashPassword(req.body.password);
-  await Users.findOne({ username: req.body.username })
-    .then((user) => {
-      if (user) {
-        return res.status(400).send(req.body.username + 'already exists');
-      } else {
-        Users
-          .create({
-            username: req.body.username,
-            password: hashedPassword,
-            email: req.body.email,
-            birth_date: req.body.birth_date
-          })
-          .then((user) => { res.status(201).json(user) })
-          .catch((error) => {
-            console.error(error);
-            res.status(500).send('Error: ' + error);
-          })
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send('Error: ' + error);
-    });
-});
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    let hashedPassword = Users.hashPassword(req.body.password);
+    await Users.findOne({ username: req.body.username })
+      .then((user) => {
+        if (user) {
+          return res.status(400).send(req.body.username + 'already exists');
+        } else {
+          Users
+            .create({
+              username: req.body.username,
+              password: hashedPassword,
+              email: req.body.email,
+              birth_date: req.body.birth_date
+            })
+            .then((user) => { res.status(201).json(user) })
+            .catch((error) => {
+              console.error(error);
+              res.status(500).send('Error: ' + error);
+            })
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+      });
+  });
 
 // UPDATE
 // Update a user's info, by username
@@ -115,43 +115,43 @@ async (req, res) => {
     email: {type: String, required: true},
     birth_date: Date
 }*/
-app.put('/users/:Username', 
-[
-  passport.authenticate('jwt', { session: false }),
-  check('username', 'Username is required').isLength({min: 5}),
-  check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-  check('password', 'Password is required').not().isEmpty(),
-  check('email', 'Email does not appear to be valid').isEmail()
-], async (req, res) => {
-  // CONDITION TO CHECK ADDED HERE
-  if (req.user.username !== req.params.Username) {
-    return res.status(400).send('Permission denied');
-  }
-  let errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
-  // CONDITION ENDS
-  let hashedPassword = Users.hashPassword(req.body.password);
-  await Users.findOneAndUpdate({ username: req.params.Username }, {
-    $set:
-    {
-      username: req.body.username,
-      password: hashedPassword,
-      email: req.body.email,
-      birth_date: req.body.birthday
+app.put('/users/:Username',
+  [
+    passport.authenticate('jwt', { session: false }),
+    check('username', 'Username is required').isLength({ min: 5 }),
+    check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('password', 'Password is required').not().isEmpty(),
+    check('email', 'Email does not appear to be valid').isEmail()
+  ], async (req, res) => {
+    // CONDITION TO CHECK ADDED HERE
+    if (req.user.username !== req.params.Username) {
+      return res.status(400).send('Permission denied');
     }
-  },
-    { new: true }) // This line makes sure that the updated document is returned
-    .then((updatedUser) => {
-      res.json(updatedUser);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send('Error: ' + err);
-    })
-});
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    // CONDITION ENDS
+    let hashedPassword = Users.hashPassword(req.body.password);
+    await Users.findOneAndUpdate({ username: req.params.Username }, {
+      $set:
+      {
+        username: req.body.username,
+        password: hashedPassword,
+        email: req.body.email,
+        birth_date: req.body.birthday
+      }
+    },
+      { new: true }) // This line makes sure that the updated document is returned
+      .then((updatedUser) => {
+        res.json(updatedUser);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).send('Error: ' + err);
+      })
+  });
 
 //UPDATE
 // Add a movie to a user's list of favorites
@@ -288,8 +288,8 @@ app.use((err, req, res, next) => {
 
 // // listen for requests
 const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0',() => {
- console.log('Listening on Port ' + port);
+app.listen(port, '0.0.0.0', () => {
+  console.log('Listening on Port ' + port);
 });
 
 // keeping 8080 code for when I need to test locally
