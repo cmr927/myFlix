@@ -56,10 +56,10 @@ app.get("/", (req, res) => {
 //Add a user
 /* We’ll expect JSON in this format
 {
-  username: String,
-  password: String,
-  email: String,
-  birth_date: Date
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthday: Date
 }*/
 app.post('/users',
   // Validation logic here for request
@@ -68,10 +68,10 @@ app.post('/users',
   //or use .isLength({min: 5}) which means
   //minimum value of 5 characters are only allowed
   [
-    check('username', 'Username is required').isLength({ min: 5 }),
-    check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-    check('password', 'Password is required').not().isEmpty(),
-    check('email', 'Email does not appear to be valid').isEmail()
+    check('Username', 'Username is required').isLength({ min: 5 }),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
   ],
   async (req, res) => {
     // check the validation object for errors
@@ -80,18 +80,18 @@ app.post('/users',
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    let hashedPassword = Users.hashPassword(req.body.password);
-    await Users.findOne({ username: req.body.username })
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    await Users.findOne({ Username: req.body.Username })
       .then((user) => {
         if (user) {
-          return res.status(400).send(req.body.username + 'already exists');
+          return res.status(400).send(req.body.Username + 'already exists');
         } else {
           Users
             .create({
-              username: req.body.username,
-              password: hashedPassword,
-              email: req.body.email,
-              birth_date: req.body.birth_date
+              Username: req.body.Username,
+              Password: hashedPassword,
+              Email: req.body.Email,
+              Birthday: req.body.Birthday
             })
             .then((user) => { res.status(201).json(user) })
             .catch((error) => {
@@ -110,21 +110,21 @@ app.post('/users',
 // Update a user's info, by username
 /* We’ll expect JSON in this format
 {
-    username: {type: String, required: true},
-    password: {type: String, required: true},
-    email: {type: String, required: true},
-    birth_date: Date
+    Username: {type: String, required: true},
+    Password: {type: String, required: true},
+    Email: {type: String, required: true},
+    Birthday: Date
 }*/
 app.put('/users/:Username',
   [
     passport.authenticate('jwt', { session: false }),
-    check('username', 'Username is required').isLength({ min: 5 }),
-    check('username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-    check('password', 'Password is required').not().isEmpty(),
-    check('email', 'Email does not appear to be valid').isEmail()
+    check('Username', 'Username is required').isLength({ min: 5 }),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
   ], async (req, res) => {
     // CONDITION TO CHECK ADDED HERE
-    if (req.user.username !== req.params.Username) {
+    if (req.user.Username !== req.params.Username) {
       return res.status(400).send('Permission denied');
     }
     let errors = validationResult(req);
@@ -133,14 +133,14 @@ app.put('/users/:Username',
       return res.status(422).json({ errors: errors.array() });
     }
     // CONDITION ENDS
-    let hashedPassword = Users.hashPassword(req.body.password);
-    await Users.findOneAndUpdate({ username: req.params.Username }, {
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    await Users.findOneAndUpdate({ Username: req.params.Username }, {
       $set:
       {
-        username: req.body.username,
-        password: hashedPassword,
-        email: req.body.email,
-        birth_date: req.body.birthday
+        Username: req.body.Username,
+        Password: hashedPassword,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
       }
     },
       { new: true }) // This line makes sure that the updated document is returned
@@ -156,10 +156,10 @@ app.put('/users/:Username',
 //UPDATE
 // Add a movie to a user's list of favorites
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  if (req.user.username !== req.params.Username) {
+  if (req.user.Username !== req.params.Username) {
     return res.status(400).send('Permission denied');
   }
-  await Users.findOneAndUpdate({ username: req.params.Username }, {
+  await Users.findOneAndUpdate({ Username: req.params.Username }, {
     $push: { FavoriteMovies: req.params.MovieID }
   },
     { new: true })
@@ -175,10 +175,10 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 // DELETE
 //Delete a movie from the user's favorite list
 app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  if (req.user.username !== req.params.Username) {
+  if (req.user.Username !== req.params.Username) {
     return res.status(400).send('Permission denied');
   }
-  await Users.findOneAndUpdate({ username: req.params.Username }, {
+  await Users.findOneAndUpdate({ Username: req.params.Username }, {
     $pull: { FavoriteMovies: req.params.MovieID }
   },
     { new: true })
@@ -207,10 +207,10 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
 //READ
 // Get a user by username
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  if (req.user.username !== req.params.Username) {
+  if (req.user.Username !== req.params.Username) {
     return res.status(400).send('Permission denied');
   }
-  await Users.findOne({ username: req.params.Username })
+  await Users.findOne({ Username: req.params.Username })
     .then((user) => {
       res.json(user);
     })
@@ -223,10 +223,10 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
 //DELETE
 // Delete a user by username
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  if (req.user.username !== req.params.Username) {
+  if (req.user.Username !== req.params.Username) {
     return res.status(400).send('Permission denied');
   }
-  await Users.findOneAndDelete({ username: req.params.Username })
+  await Users.findOneAndDelete({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
         res.status(400).send(req.params.Username + ' was not found');
