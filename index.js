@@ -23,7 +23,7 @@ app.use(morgan('common'));
 const { check, validationResult } = require('express-validator');
 
 const cors = require('cors');
-let allowedOrigins = ['http://0.0.0.0:8080', 'http://testsite.com', 'mongodb://0.0.0.0t:27017/cfDB', process.env.CONNECTION_URI];
+let allowedOrigins = ['http://0.0.0.0:8080', 'http://testsite.com', 'mongodb://0.0.0.0t:27017/cfDB', 'http://localhost:1234', process.env.CONNECTION_URI];
 
 app.use(cors({
   origin: (origin, callback) => {
