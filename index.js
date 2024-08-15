@@ -23,7 +23,7 @@ app.use(morgan('common'));
 const { check, validationResult } = require('express-validator');
 
 const cors = require('cors');
-let allowedOrigins = ['http://0.0.0.0:8080', 'http://testsite.com', 'mongodb://0.0.0.0t:27017/cfDB', 'http://localhost:4200', 'https://cmr927-myflix.netlify.app', process.env.CONNECTION_URI];
+let allowedOrigins = ['http://0.0.0.0:8080', 'http://testsite.com', 'mongodb://0.0.0.0t:27017/cfDB', 'http://localhost:4200', 'https://cmr927-myflix.netlify.app', 'https://cmr927.github.io/myFlix-Angular-client/myFlix-Angular-client', 'https://cmr927.github.io', process.env.CONNECTION_URI];
 
 app.use(cors({
   origin: (origin, callback) => {
