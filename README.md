@@ -21,19 +21,17 @@ single movie by title to the user
 3. Install dependencies: `npm install`
 4. Start the server: `npm start`
 # Dependencies
-- "bcrypt": "^5.1.1",
-- "body-parser": "^1.20.2",
-- "cors": "^2.8.5",
-- "express": "^4.18.2",
-- "express-validator": "^7.0.1",
-- "jsonwebtoken": "^9.0.2",
-- "lodash": "^4.17.21",
-- "mongoose": "^8.0.3",
-- "morgan": "^1.10.0",
-- "passport": "^0.7.0",
-- "passport-jwt": "^4.0.1",
-- "passport-local": "^1.0.0",
-- "uuid": "^9.0.1"
+- bcrypt
+- body-parser
+- cors
+- express
+- jsonwebtoken
+- lodash
+- mongoose
+- morgan
+- passport
+- uuid
+
 # API Endpoints
 - `GET /movies`: Return a list of ALL movies to the user
 - `GET /movies/:Title`: Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user
