@@ -80,6 +80,7 @@ app.get("/", (req, res) => {
 /**
  * @name Register a new user
  * @description Register a new user. Expects JSON in the request body. CREATE, POST /users
+ * @async
  * @param {string} Username - User's username.
  * @param {string} Password - User's password.
  * @param {string} Email - User's email.
@@ -136,6 +137,7 @@ app.post('/users',
 /**
  * @name Update user's information
  * @description Update an existing user's information. UPDATE, PUT /users/:Username
+ * @async
  * @param {string} Username - New or existing username.
  * @param {string} Password - New or existing password.
  * @param {string} Email - New or existing email.
@@ -183,6 +185,7 @@ app.put('/users/:Username',
 /**
  * @name Add movie to fav movies
  * @description Add a movie to a user's list of favorite movies. UPDATE, POST /users/:Username/movies/:MovieID
+ * @async
  * @param {string} Username - The user's username.
  * @param {string} MovieID - The ID of the movie to add to favorites.
  * @returns {object} The updated user with the new favorite movie.
@@ -207,6 +210,7 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 /**
  * @name Delete movie from fav movies
  * @description Remove a movie from a user's list of favorite movies. DELETE /users/:Username/movies/:MovieID
+ * @async
  * @param {string} Username - The user's username.
  * @param {string} MovieID - The ID of the movie to remove from favorites.
  * @returns {object} The updated user without the removed favorite movie.
@@ -231,6 +235,7 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
 /**
  * @name Get all movies
  * @description Get a list of all movies. GET /movies
+ * @async
  * @returns {array} A list of movie objects.
  */
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -247,6 +252,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
 /**
  * @name Get user info
  * @description Get a user's information by username. READ, GET /users/:Username
+ * @async
  * @param {string} Username - The user's username.
  * @returns {object} The user object.
  */
@@ -266,7 +272,8 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
 
 /**
  * @name Delete a user
- * @description Delete a user by username. DELETE /users/:Username
+ * @description Delete a user by username. DELETE /users/:Username\
+ * @async
  * @param {string} Username - The user's username.
  * @returns {string} Confirmation message.
  */
@@ -291,6 +298,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 /**
  * @name Get movie
  * @description Get a movie by title. GET /movies/:title
+ * @async
  * @param {string} title - The title of the movie.
  * @returns {object} The movie object.
  */
@@ -308,6 +316,7 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), asyn
 /**
  * @name Get movie's genre
  * @description Get a movie's genre by genre name. READ, GET /movies/genres/:genreName
+ * @async
  * @param {string} genreName - The name of the genre.
  * @returns {object} The genre object.
  */
@@ -326,6 +335,7 @@ app.get('/movies/genres/:genreName', passport.authenticate('jwt', { session: fal
 /**
  * @name Get director info
  * @description Get information on a movie's director by director name. READ, GET /movies/directors/:directorName
+ * @async
  * @param {string} directorName - The name of the director.
  * @returns {object} The director object.
  */
