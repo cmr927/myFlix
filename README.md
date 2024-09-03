@@ -1,8 +1,10 @@
 # myFlix API
 This is a RESTful API built with Node.js and Express, which provides information about movies, genres, and directors.
-# Link to Project
-Website: https://movies-myflix-cmr927-6d25967ba551.herokuapp.com
-# Features
+
+## Link to Project
+https://movies-myflix-cmr927-6d25967ba551.herokuapp.com
+
+## Features
 - Return a list of ALL movies to the user
 - Return data (description, genre, director, image URL, whether it’s featured or not) about a
 single movie by title to the user
@@ -15,12 +17,13 @@ single movie by title to the user
 - Allow existing users to deregister
 - Allow existing users to login and get a JWT token
 
-# Installation
+## Installation
 1. Clone this repository: `git clone https://github.com/yourusername/movie-api.git`
 2. Navigate into the project directory: `cd movie-api`
 3. Install dependencies: `npm install`
 4. Start the server: `npm start`
-# Dependencies
+
+## Dependencies
 - bcrypt
 - body-parser
 - cors
@@ -32,7 +35,7 @@ single movie by title to the user
 - passport
 - uuid
 
-# API Endpoints
+## API Endpoints
 - `GET /movies`: Return a list of ALL movies to the user
 - `GET /movies/:Title`: Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user
 - `GET /movies/genres/:genreName`: Return data about a genre (description) by name/title (e.g., “Thriller”)
@@ -44,5 +47,9 @@ single movie by title to the user
 - `DELETE /users/:Username/movies/:MovieID`: Allow users to remove a movie from their list of favorites
 - `DELETE /users/:username`: Allow existing users to deregister (showing only a text that a user email has been removed)
 - `POST /login/:username:password`: Allow existing users to login and get a JWT token
-# Authentication
+## Authentication
 This API uses JWT for authentication. All endpoints require a valid JWT token in the Authorization header.
+
+## License
+This project is licensed under the terms of the [ISC License](https://opensource.org/licenses/ISC).
+
