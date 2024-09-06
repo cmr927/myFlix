@@ -1,13 +1,17 @@
-# myFlix API
-This is a RESTful API built with Node.js and Express, which provides information about movies, genres, and directors.
+# MyFlix API
+This is a custom RESTful API built with Node.js and Express, which provides information about movies, titles, descriptions, genres, directors, images, features, users, and more.
 
-## Link to Project
-https://movies-myflix-cmr927-6d25967ba551.herokuapp.com
+This API is used for the frontend apps [myFlix React](https://github.com/cmr927/myFlix-client) and [myFlix Angular](https://github.com/cmr927/myFlix-Angular-client).
+
+## Database
+This database is built mainly on the MERN tech stack. Mongoose and MongoDB were used to create and connect the individual movie objects to a database. The API is hosted on MongoDB and the frontend is hosted on Netlify.
+
+## Link to Project Documentation
+[https://movies-myflix-cmr927-6d25967ba551.herokuapp.com/documentation.html](https://movies-myflix-cmr927-6d25967ba551.herokuapp.com/documentation.html)
 
 ## Features
 - Return a list of ALL movies to the user
-- Return data (description, genre, director, image URL, whether it’s featured or not) about a
-single movie by title to the user
+- Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user
 - Return data about a genre (description) by name/title (e.g., “Thriller”)
 - Return data about a director (bio, birth year, death year) by name
 - Allow new users to register
@@ -47,6 +51,7 @@ single movie by title to the user
 - `DELETE /users/:Username/movies/:MovieID`: Allow users to remove a movie from their list of favorites
 - `DELETE /users/:username`: Allow existing users to deregister (showing only a text that a user email has been removed)
 - `POST /login/:username:password`: Allow existing users to login and get a JWT token
+
 ## Authentication
 This API uses JWT for authentication. All endpoints require a valid JWT token in the Authorization header.
 
