@@ -1,7 +1,7 @@
 # MyFlix API
 This is a custom RESTful API built with Node.js and Express, which provides information about movies, titles, descriptions, genres, directors, images, features, users, and more.
 
-This API is used for the frontend apps [myFlix React](https://github.com/cmr927/myFlix-client) and [myFlix Angular](https://github.com/cmr927/myFlix-Angular-client).
+This API is used for the frontend apps [MyFlix React](https://github.com/cmr927/myFlix-client) and [MyFlix Angular](https://github.com/cmr927/myFlix-Angular-client).
 
 ## Database
 This database is built mainly on the MERN tech stack. Mongoose and MongoDB were used to create and connect the individual movie objects to a database. The API is hosted on MongoDB and the frontend is hosted on Netlify.
@@ -11,7 +11,7 @@ This database is built mainly on the MERN tech stack. Mongoose and MongoDB were 
 
 ## Features
 - Return a list of ALL movies to the user
-- Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user
+- Return data (description, genre, director, image URL, whether it’s favorited or not) about a single movie by title to the user
 - Return data about a genre (description) by name/title (e.g., “Thriller”)
 - Return data about a director (bio, birth year, death year) by name
 - Allow new users to register
