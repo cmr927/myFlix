@@ -11,7 +11,7 @@ This database is built mainly on the MERN tech stack. Mongoose and MongoDB were 
 
 ## Features
 - Return a list of ALL movies to the user
-- Return data (description, genre, director, image URL, whether it’s favorited or not) about a single movie by title to the user
+- Return data (description, genre, director, image URL) about a single movie by title to the user
 - Return data about a genre (description) by name/title (e.g., “Thriller”)
 - Return data about a director (bio, birth year, death year) by name
 - Allow new users to register
